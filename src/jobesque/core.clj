@@ -10,6 +10,11 @@
 	([scheduler]
 		(reset! *scheduler* scheduler)))
 
+(defn initialized?
+	"Return true if a scheduler instance exist, false otherwise."
+	[]
+	(instance? Scheduler @*scheduler*))
+
 (defn start
 	"Start the scheduler."
 	[]
