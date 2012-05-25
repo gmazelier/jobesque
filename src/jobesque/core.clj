@@ -25,8 +25,8 @@
 	[]
 	(.stop ^Scheduler @*scheduler*))
 
-(defn is-valid-pattern
-	"Return nil if the given pattern is valid, otherrise an AssertionError."
+(defn is-valid-pattern ;; TODO Change contract and return true or false
+	"Return nil if the given pattern is valid, otherwise an AssertionError."
 	[pattern]
 	(assert (SchedulingPattern/validate pattern) (str "Pattern [" pattern "] not valid.")))
 
