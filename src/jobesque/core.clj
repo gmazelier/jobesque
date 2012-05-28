@@ -3,10 +3,10 @@
 
 (def ^:dynamic *scheduler* (atom nil))
 
-(defn initialized
+(defn initialize
 	"Create a new scheduler instance."
 	([]
-		(initialized (Scheduler.)))
+		(initialize (Scheduler.)))
 	([scheduler]
 		(reset! *scheduler* scheduler)))
 
