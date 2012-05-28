@@ -3,17 +3,20 @@
 
 (def ^:dynamic *scheduler* (atom nil))
 
-(defn initialize
-	"Create a new scheduler instance."
-	([]
-		(initialize (Scheduler.)))
-	([scheduler]
-		(reset! *scheduler* scheduler)))
+;; TODO Add "added" meta.
 
 (defn initialized?
-	"Return true if a scheduler instance exist, false otherwise."
+	"Return true if a scheduler instance exists, false otherwise."
 	[]
 	(instance? Scheduler @*scheduler*))
+
+(defn initialize
+  "Create a new scheduler instance if not exists."
+  ([]
+   (initialize (Scheduler.)))
+  ([scheduler]
+   (when (not (initialized?))
+     (reset! *scheduler* scheduler))))
 
 (defmacro when-initialized
   "Evaluates scheduler instance. If exists (logical true returned), evaluates body."
@@ -22,22 +25,26 @@
     (do ~@body)))
 
 (defn start
-	"Start the scheduler."
+	"Starts the scheduler."
 	[]
-	(.start ^Scheduler @*scheduler*))
+	(when-initialized
+    (.start ^Scheduler @*scheduler*)))
 
 (defn stop
-	"Stop the scheduler."
+	"Stops the scheduler."
 	[]
-	(.stop ^Scheduler @*scheduler*))
+	(when-initialized
+    (.stop ^Scheduler @*scheduler*)))
 
 (defn valid-pattern? ;; TODO Change contract and return true or false ?
-	"Return nil if the given pattern is valid, otherwise an AssertionError."
+	"Returns nil if the given pattern is valid, otherwise an AssertionError."
 	[pattern]
-	(assert (SchedulingPattern/validate pattern) (str "Pattern [" pattern "] not valid.")))
+	(assert (SchedulingPattern/validate pattern)
+    (str "Pattern [" pattern "] not valid.")))
 
 (defn schedule
-	"Schedule a job given a scheduling pattern."
+	"Schedules a job given a scheduling pattern."
 	[pattern job]
-	(when (nil? (valid-pattern? pattern))
-		(.schedule ^Scheduler @*scheduler* pattern job)))
+  (when-initialized
+    (when (nil? (valid-pattern? pattern))
+		  (.schedule ^Scheduler @*scheduler* pattern job))))
