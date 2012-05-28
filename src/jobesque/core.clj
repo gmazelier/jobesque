@@ -15,6 +15,12 @@
 	[]
 	(instance? Scheduler @*scheduler*))
 
+(defmacro when-initialized
+  "Evaluates scheduler instance. If exists (logical true returned), evaluates body."
+  [& body]
+  `(when (initialized?)
+    (do ~@body)))
+
 (defn start
 	"Start the scheduler."
 	[]
