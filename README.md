@@ -91,7 +91,7 @@ A pattern is divided in five values, in the given order :
 ## Roadmap
 
 ### 0.0.1
-+ ~~Schedule a job~
++ ~~Schedule a job~~
 
 ### 0.0.2
 + List scheduled jobs
