@@ -21,14 +21,14 @@ use it with other build tools, like Maven:
 
 With Leiningen:
 
-    [jobesque "0.0.1-SNAPSHOT"]
+    [jobesque "0.0.1"]
 
 With Maven:
 
     <dependency>
       <groupId>jobesque</groupId>
       <artifactId>jobesque</artifactId>
-      <version>0.0.1-SNAPSHOT</version>
+      <version>0.0.1</version>
     </dependency>
 
 ### Quickstart
