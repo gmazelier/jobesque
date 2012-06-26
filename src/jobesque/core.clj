@@ -1,13 +1,13 @@
 (ns jobesque.core
-	(:import (it.sauronsoftware.cron4j Scheduler SchedulingPattern)))
+  (:import (it.sauronsoftware.cron4j Scheduler SchedulingPattern)))
 
 (def ^:dynamic *scheduler* (atom nil))
 
 (defn initialized?
-	"Return true if a scheduler instance exists, false otherwise."
+  "Return true if a scheduler instance exists, false otherwise."
   {:added "0.0.1"}
-	[]
-	(instance? Scheduler @*scheduler*))
+  []
+  (instance? Scheduler @*scheduler*))
 
 (defn initialize
   "Create a new scheduler instance if not exists."
@@ -23,33 +23,33 @@
   {:added "0.0.1"}
   [& body]
   `(when (initialized?)
-    (do ~@body)))
+     (do ~@body)))
 
 (defn start
-	"Starts the scheduler."
+  "Starts the scheduler."
   {:added "0.0.1"}
-	[]
-	(when-initialized
+  []
+  (when-initialized
     (.start ^Scheduler @*scheduler*)))
 
 (defn stop
-	"Stops the scheduler."
+  "Stops the scheduler."
   {:added "0.0.1"}
-	[]
-	(when-initialized
+  []
+  (when-initialized
     (.stop ^Scheduler @*scheduler*)))
 
 (defn valid-pattern? ;; TODO Change contract and return true or false ?
-	"Returns nil if the given pattern is valid, otherwise an AssertionError."
+  "Returns nil if the given pattern is valid, otherwise an AssertionError."
   {:added "0.0.1"}
-	[pattern]
-	(assert (SchedulingPattern/validate pattern)
+  [pattern]
+  (assert (SchedulingPattern/validate pattern)
     (str "Pattern [" pattern "] not valid.")))
 
 (defn schedule
-	"Schedules a job given a scheduling pattern."
+  "Schedules a job given a scheduling pattern."
   {:added "0.0.1"}
-	[pattern job]
+  [pattern job]
   (when-initialized
     (when (nil? (valid-pattern? pattern))
-		  (.schedule ^Scheduler @*scheduler* pattern job))))
+      (.schedule ^Scheduler @*scheduler* pattern job))))
