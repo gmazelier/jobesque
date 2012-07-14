@@ -21,13 +21,13 @@
 (add-watch *scheduler* :reset-watcher on-reset)
 
 (defn initialized?
-  "Return true if a scheduler instance exists, false otherwise."
+  "Returns true if a scheduler instance exists, false otherwise."
   {:added "0.0.1"}
   []
   (instance? Scheduler @*scheduler*))
 
 (defn initialize
-  "Create a new scheduler instance if not exists."
+  "Creates a new scheduler instance if not exists."
   {:added "0.0.1"}
   ([]
    (initialize (Scheduler.)))
