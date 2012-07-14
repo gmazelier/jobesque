@@ -73,3 +73,9 @@
         (let [id (.schedule ^Scheduler @*scheduler* pattern job)]
           (commute all-jobs assoc id {:pattern pattern})
           id)))))
+
+(defn jobs
+  "Returns jobs collection as a sequence."
+  {:added "0.0.2"}
+  []
+  (map #(assoc %2 :id %1) (keys @all-jobs) (vals @all-jobs)))
