@@ -64,9 +64,12 @@
     (str "Pattern [" pattern "] not valid.")))
 
 (defn schedule
-  "Schedules a job given a scheduling pattern."
+  "Schedules a job given a scheduling pattern. Returns job ID when successful."
   {:added "0.0.1"}
   [pattern job]
   (when-initialized
     (when (nil? (valid-pattern? pattern))
-      (.schedule ^Scheduler @*scheduler* pattern job))))
+      (dosync
+        (let [id (.schedule ^Scheduler @*scheduler* pattern job)]
+          (commute all-jobs assoc id {:pattern pattern})
+          id)))))
