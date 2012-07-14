@@ -1,7 +1,24 @@
 (ns jobesque.core
   (:import (it.sauronsoftware.cron4j Scheduler SchedulingPattern)))
 
+(def all-jobs (ref {}))
+
+(defn clear-jobs
+  "Clears jobs collection."
+  {:added "0.0.2"}
+  []
+  (dosync
+    (ref-set all-jobs {})))
+
 (def ^:dynamic *scheduler* (atom nil))
+
+(defn on-reset
+  "Calls clear-jobs on scheduler reset."
+  {:added "0.0.2"}
+  [the-key the-ref old-value new-value]
+  (clear-jobs))
+
+(add-watch *scheduler* :reset-watcher on-reset)
 
 (defn initialized?
   "Return true if a scheduler instance exists, false otherwise."
