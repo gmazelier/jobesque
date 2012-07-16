@@ -63,6 +63,13 @@
   (assert (SchedulingPattern/validate pattern)
     (str "Pattern [" pattern "] not valid.")))
 
+(defmacro with-valid-pattern
+  "Evaluates pattern validity. If valid (logical true returned), evaluates body."
+  {:added "0.0.2"}
+  [pattern & body]
+  `(when (nil? (valid-pattern? ~pattern))
+    (do ~@body)))
+
 (defn schedule
   "Schedules a job given a scheduling pattern. Returns job ID when successful."
   {:added "0.0.1"}
