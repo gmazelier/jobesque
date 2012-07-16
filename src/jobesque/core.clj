@@ -79,3 +79,10 @@
   {:added "0.0.2"}
   []
   (map #(assoc %2 :id %1) (keys @all-jobs) (vals @all-jobs)))
+
+(defmacro with-job
+  "Evaluates if a job identified by the given id is present. If exists (logical true returned), evaluates body."
+  {:added "0.0.2"}
+  [id & body]
+  `(when (contains? @all-jobs ~id)
+    (do ~@body)))
