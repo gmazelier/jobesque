@@ -93,3 +93,13 @@
   [id]
   (with-job id
     (assoc (@all-jobs id) :id id)))
+
+(defn deschedule
+  "Deschedules a job and removes it from the jobs collection."
+  {:added "0.0.2"}
+  [id]
+  (with-job id
+    (dosync
+      (.deschedule ^Scheduler @*scheduler* id)
+      (alter all-jobs dissoc id)
+      id)))
