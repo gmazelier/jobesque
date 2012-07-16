@@ -94,9 +94,9 @@ A pattern is divided in five values, in the given order :
 + ~~Schedule a job~~
 
 ### 0.0.2
-+ List scheduled jobs
-+ Reschedule a job
-+ Deschedule a job
++ ~~List scheduled jobs~~
++ ~~Reschedule a job~~
++ ~~Deschedule a job~~
 
 ### 0.0.3
 + Schedule jobs from a file
