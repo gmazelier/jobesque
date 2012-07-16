@@ -112,7 +112,7 @@
       id)))
 
 (defn reschedule
-  ""
+  "Reschedules a job and updates the jobs collection."
   {:added "0.0.2"}
   [id pattern]
   (with-job id
