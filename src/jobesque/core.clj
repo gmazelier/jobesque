@@ -110,3 +110,14 @@
       (.deschedule ^Scheduler @*scheduler* id)
       (alter all-jobs dissoc id)
       id)))
+
+(defn reschedule
+  ""
+  {:added "0.0.2"}
+  [id pattern]
+  (with-job id
+    (with-valid-pattern pattern
+      (dosync
+        (.reschedule ^Scheduler @*scheduler* id pattern)
+        (alter all-jobs assoc id (assoc (@all-jobs id) :pattern pattern))
+        id))))
