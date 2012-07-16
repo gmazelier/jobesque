@@ -75,7 +75,7 @@
   {:added "0.0.1"}
   [pattern job]
   (when-initialized
-    (when (nil? (valid-pattern? pattern))
+    (with-valid-pattern pattern
       (dosync
         (let [id (.schedule ^Scheduler @*scheduler* pattern job)]
           (commute all-jobs assoc id {:pattern pattern})
