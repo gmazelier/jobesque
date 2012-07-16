@@ -86,3 +86,10 @@
   [id & body]
   `(when (contains? @all-jobs ~id)
     (do ~@body)))
+
+(defn job
+  "Returns the job identified by the given id, if exists."
+  {:added "0.0.2"}
+  [id]
+  (with-job id
+    (assoc (@all-jobs id) :id id)))
