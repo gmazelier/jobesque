@@ -105,19 +105,21 @@
   "Deschedules a job and removes it from the jobs collection."
   {:added "0.0.2"}
   [id]
-  (with-job id
-    (dosync
-      (.deschedule ^Scheduler @*scheduler* id)
-      (alter all-jobs dissoc id)
-      id)))
+  (when-initialized
+    (with-job id
+      (dosync
+        (.deschedule ^Scheduler @*scheduler* id)
+        (alter all-jobs dissoc id)
+        id))))
 
 (defn reschedule
   "Reschedules a job and updates the jobs collection."
   {:added "0.0.2"}
   [id pattern]
-  (with-job id
-    (with-valid-pattern pattern
-      (dosync
-        (.reschedule ^Scheduler @*scheduler* id pattern)
-        (alter all-jobs assoc id (assoc (@all-jobs id) :pattern pattern))
-        id))))
+  (when-initialized
+    (with-job id
+      (with-valid-pattern pattern
+        (dosync
+          (.reschedule ^Scheduler @*scheduler* id pattern)
+          (alter all-jobs assoc id (assoc (@all-jobs id) :pattern pattern))
+          id)))))
