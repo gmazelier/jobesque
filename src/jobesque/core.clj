@@ -1,6 +1,9 @@
 (ns jobesque.core
   (:import (it.sauronsoftware.cron4j Scheduler SchedulingPattern)))
 
+;; ## Scheduler
+
+;; Jobs collection.
 (def all-jobs (ref {}))
 
 (defn clear-jobs
@@ -10,18 +13,20 @@
   (dosync
     (ref-set all-jobs {})))
 
+;; Scheduler instance.
 (def ^:dynamic *scheduler* (atom nil))
 
 (defn on-reset
-  "Calls clear-jobs on scheduler reset."
+  "Calls `clear-jobs` on scheduler reset."
   {:added "0.0.2"}
   [the-key the-ref old-value new-value]
   (clear-jobs))
 
+;; Scheduler monitoring.
 (add-watch *scheduler* :reset-watcher on-reset)
 
 (defn initialized?
-  "Returns true if a scheduler instance exists, false otherwise."
+  "Returns `true` if a scheduler instance exists, `false` otherwise."
   {:added "0.0.1"}
   []
   (instance? Scheduler @*scheduler*))
@@ -56,8 +61,11 @@
   (when-initialized
     (.stop ^Scheduler @*scheduler*)))
 
-(defn valid-pattern? ;; TODO Change contract and return true or false ?
-  "Returns nil if the given pattern is valid, otherwise an AssertionError."
+;; ## Patterns
+
+;; **TODO Change contract and return true or false ?**
+(defn valid-pattern?
+  "Returns nil if the given pattern is valid, otherwise an `AssertionError`."
   {:added "0.0.1"}
   [pattern]
   (assert (SchedulingPattern/validate pattern)
@@ -70,16 +78,7 @@
   `(when (nil? (valid-pattern? ~pattern))
     (do ~@body)))
 
-(defn schedule
-  "Schedules a job given a scheduling pattern. Returns job ID when successful."
-  {:added "0.0.1"}
-  [pattern job]
-  (when-initialized
-    (with-valid-pattern pattern
-      (dosync
-        (let [id (.schedule ^Scheduler @*scheduler* pattern job)]
-          (commute all-jobs assoc id {:pattern pattern})
-          id)))))
+;; ## Jobs
 
 (defn jobs
   "Returns jobs collection as a sequence."
@@ -101,8 +100,23 @@
   (with-job id
     (assoc (@all-jobs id) :id id)))
 
+;; ## Scheduling tasks
+
+(defn schedule
+  "Schedules a job given a scheduling pattern.
+  Returns job ID when successful, `nil` otherwise."
+  {:added "0.0.1"}
+  [pattern job]
+  (when-initialized
+    (with-valid-pattern pattern
+      (dosync
+        (let [id (.schedule ^Scheduler @*scheduler* pattern job)]
+          (commute all-jobs assoc id {:pattern pattern})
+          id)))))
+
 (defn deschedule
-  "Deschedules a job and removes it from the jobs collection."
+  "Deschedules a job and removes it from the jobs collection.
+  Returns job ID when successful, `nil` otherwise."
   {:added "0.0.2"}
   [id]
   (when-initialized
@@ -113,7 +127,8 @@
         id))))
 
 (defn reschedule
-  "Reschedules a job and updates the jobs collection."
+  "Reschedules a job and updates the jobs collection.
+  Returns job ID when successful, `nil` otherwise."
   {:added "0.0.2"}
   [id pattern]
   (when-initialized
