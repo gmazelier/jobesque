@@ -98,10 +98,15 @@ A pattern is divided in five values, in the given order :
 + ~~Reschedule a job~~
 + ~~Deschedule a job~~
 
-### 0.0.3
+### 0.1.0
++ Extends job properties
++ Improve documentation
++ Improve tests
+
+### 0.1.1
 + Schedule jobs from a file
 
-### 0.0.4
+### 0.1.2
 + Jobs persistence
 
 ## See also
