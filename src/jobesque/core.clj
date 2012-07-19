@@ -63,7 +63,6 @@
 
 ;; ## Patterns
 
-;; **TODO Change contract and return true or false ?**
 (defn valid-pattern?
   "Returns nil if the given pattern is valid, otherwise an `AssertionError`."
   {:added "0.0.1"}
@@ -76,7 +75,7 @@
   {:added "0.0.2"}
   [pattern & body]
   `(when (nil? (valid-pattern? ~pattern))
-    (do ~@body)))
+     (do ~@body)))
 
 ;; ## Jobs
 
@@ -91,7 +90,7 @@
   {:added "0.0.2"}
   [id & body]
   `(when (contains? @all-jobs ~id)
-    (do ~@body)))
+     (do ~@body)))
 
 (defn job
   "Returns the job identified by the given id, if exists."
