@@ -117,6 +117,7 @@ To be documented.
 + ~~Deschedule a job~~
 
 ### 0.1.0
++ Execute a job immediately
 + Extends job properties
 + Improve documentation
 + Improve tests
