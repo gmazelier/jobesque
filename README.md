@@ -70,7 +70,7 @@ A pattern is divided in five values, in the given order :
 + **months**, values range from 1 to 12, with aliases like `jan` for January and so on;
 + **days of week**, values range from 0 (Sunday) to 7 (Sunday again), with aliases like `sun` for Sunday and so on.
 
-####Special characters
+#### Special characters
 
 + **wildcard**, to define every allowed values;
 + **comma**, to define a list a possible values;
@@ -78,7 +78,7 @@ A pattern is divided in five values, in the given order :
 + **slash**, to define multiple values in a range with a step;
 + **pipe**, to combine multiple patterns in one.
 
-####Examples
+#### Examples
 
 + `* * * * *`, every minute;
 + `*/5 * * * *`, every five minutes;
@@ -87,6 +87,24 @@ A pattern is divided in five values, in the given order :
 + `0 12 * * 1,2,3,4,5`, from Monday to Friday at noon;
 + `0 12 * * 1-5`, the same pattern than above;
 + `0 0 * * *|1 1 * * *|2 2 * * *`, every day at 00:00, 01:01 and 02:02.
+
+### Jobs
+To be documented.
+
+#### List
+To be documented.
+
+#### Job informations
+To be documented.
+
+#### Schedule
+To be documented.
+
+#### Deschedule
+To be documented.
+
+#### Reschedule
+To be documented.
 
 ## Roadmap
 
