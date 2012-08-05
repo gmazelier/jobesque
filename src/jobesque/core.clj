@@ -86,7 +86,8 @@
   (map #(assoc %2 :id %1) (keys @all-jobs) (vals @all-jobs)))
 
 (defmacro with-job
-  "Evaluates if a job identified by the given id is present. If exists (logical true returned), evaluates body."
+  "Evaluates if a job identified by the given id is present.
+  If exists (logical true returned), evaluates body."
   {:added "0.0.2"}
   [id & body]
   `(when (contains? @all-jobs ~id)
@@ -98,6 +99,18 @@
   [id]
   (with-job id
     (assoc (@all-jobs id) :id id)))
+
+;; FIXME Scheduler must be started.
+(defn launch
+  "Executes immediately an existing job, without scheduling it."
+  {:added "0.1.0"}
+  [id]
+  (when-initialized
+    (with-job id
+      (do
+        (.launch ^Scheduler @*scheduler*
+          (.getTask ^Scheduler @*scheduler* id))
+        id))))
 
 ;; ## Scheduling tasks
 
