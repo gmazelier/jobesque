@@ -72,7 +72,7 @@
   "Stops the scheduler."
   {:added "0.0.1"}
   []
-  (when-initialized
+  (when-started
     (.stop ^Scheduler @*scheduler*)))
 
 ;; ## Patterns
