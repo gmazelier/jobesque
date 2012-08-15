@@ -54,6 +54,20 @@
   (when-initialized
     (.start ^Scheduler @*scheduler*)))
 
+(defn started?
+  "Returns `true` if a scheduler instance is started, `false` otherwise."
+  {:added "0.1.0"}
+  []
+  (when-initialized
+    (.isStarted ^Scheduler @*scheduler*)))
+
+(defmacro when-started
+  "Evaluates scheduler status. If started (logical true returned), evaluates body."
+  {:added "0.1.0"}
+  [& body]
+  `(when (started?)
+     (do ~@body)))
+
 (defn stop
   "Stops the scheduler."
   {:added "0.0.1"}
