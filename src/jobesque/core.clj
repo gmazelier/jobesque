@@ -128,15 +128,17 @@
 ;; ## Scheduling tasks
 
 (defn schedule
-  "Schedules a job given a scheduling pattern.
+  "Schedules a job given a scheduling pattern and runnable task.
   Returns job ID when successful, `nil` otherwise."
   {:added "0.0.1"}
-  [pattern job]
+  [pattern task & keyvals]
   (when-initialized
     (with-valid-pattern pattern
       (dosync
-        (let [id (.schedule ^Scheduler @*scheduler* pattern job)]
-          (commute all-jobs assoc id {:pattern pattern})
+        (let [id (.schedule ^Scheduler @*scheduler* pattern task)
+              props (apply hash-map keyvals)
+              job (merge props {:pattern pattern})]
+          (commute all-jobs assoc id job)
           id)))))
 
 (defn deschedule
