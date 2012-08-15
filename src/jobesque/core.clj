@@ -114,12 +114,11 @@
   (with-job id
     (assoc (@all-jobs id) :id id)))
 
-;; FIXME Scheduler must be started.
 (defn launch
   "Executes immediately an existing job, without scheduling it."
   {:added "0.1.0"}
   [id]
-  (when-initialized
+  (when-started
     (with-job id
       (do
         (.launch ^Scheduler @*scheduler*
